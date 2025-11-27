@@ -1,11 +1,20 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
 
-const Contact = sequelize.define('Contact', {
+const JobApplication = sequelize.define('JobApplication', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+    },
+    jobId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'Jobs',
+            key: 'id',
+        },
+        onDelete: 'CASCADE',
     },
     name: {
         type: DataTypes.STRING,
@@ -29,22 +38,27 @@ const Contact = sequelize.define('Contact', {
             notEmpty: { msg: 'Please add a phone number' },
         },
     },
-    service: {
+    linkedin: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    portfolio: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    resume: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: { msg: 'Please add a service' },
+            notEmpty: { msg: 'Please provide a resume link' },
         },
     },
-    message: {
+    coverLetter: {
         type: DataTypes.TEXT,
-        allowNull: false,
-        validate: {
-            notEmpty: { msg: 'Please add a message' },
-        },
+        allowNull: true,
     },
 }, {
     timestamps: true,
 });
 
-module.exports = Contact;
+module.exports = JobApplication;

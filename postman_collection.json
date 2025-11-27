@@ -127,6 +127,33 @@
                     "response": []
                 },
                 {
+                    "name": "Apply for Job (Public)",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"John Developer\",\n    \"email\": \"john.dev@example.com\",\n    \"phone\": \"+1234567890\",\n    \"linkedin\": \"https://linkedin.com/in/johndev\",\n    \"portfolio\": \"https://johndev.com\",\n    \"resume\": \"https://drive.google.com/file/d/resume_link\",\n    \"coverLetter\": \"I am excited to apply for this position...\",\n    \"jobId\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/jobs/apply",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "jobs",
+                                "apply"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
                     "name": "Create Job (Admin)",
                     "request": {
                         "auth": {
@@ -243,6 +270,34 @@
                     "response": []
                 },
                 {
+                    "name": "Get All Job Applications (Admin)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/admin/applications",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "applications"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
                     "name": "Get All Contacts (Admin)",
                     "request": {
                         "auth": {
@@ -296,6 +351,65 @@
                             ],
                             "path": [
                                 "contact"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Newsletter",
+            "item": [
+                {
+                    "name": "Subscribe to Newsletter (Public)",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"subscriber@example.com\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/newsletter",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "newsletter"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get All Subscribers (Admin)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/admin/newsletter",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "newsletter"
                             ]
                         }
                     },

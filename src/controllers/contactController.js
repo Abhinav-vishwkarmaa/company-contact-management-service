@@ -6,7 +6,7 @@ const sendEmail = require('../services/emailService');
 // @access  Public
 exports.submitContact = async (req, res) => {
     try {
-        const { name, email, phone, message } = req.body;
+        const { name, email, phone, message, service } = req.body;
 
         // Create contact entry in DB
         const contact = await Contact.create({
@@ -14,6 +14,7 @@ exports.submitContact = async (req, res) => {
             email,
             phone,
             message,
+            service,
         });
 
         // Send email notification
@@ -23,17 +24,40 @@ exports.submitContact = async (req, res) => {
       Email: ${email}
       Phone: ${phone}
       Message: ${message}
+      Service: ${service}
     `;
 
         try {
+            // Email to Admin
             await sendEmail({
-                email: process.env.SMTP_USER, // Send to company email
+                email: process.env.SMTP_USER,
                 subject: 'New Contact Form Submission',
                 message: messageToSend,
             });
+
+            // Email to User
+            const userMessage = `
+        Hi ${name},
+
+        Thank you for contacting us! We have received your message regarding "${service}" and will get back to you shortly.
+
+        Best regards,
+        Company Team
+      `;
+
+            await sendEmail({
+                email: email,
+                subject: 'We received your message',
+                message: userMessage,
+            });
+
         } catch (err) {
             console.error(err);
-            // We still return success for the contact submission even if email fails
+            res.status(500).json({
+                success: false,
+                error: err.message,
+            });
+            // We still return success even if email fails
         }
 
         res.status(201).json({

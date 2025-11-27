@@ -11,11 +11,13 @@ const { connectDB, sequelize } = require('./config/db');
 
 // Connect to database
 connectDB();
+require('./models/associations');
 
 // Route files
 const contactRoutes = require('./routes/contactRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const newsletterRoutes = require('./routes/newsletterRoutes');
 
 const app = express();
 
@@ -28,10 +30,12 @@ app.use(helmet());
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
+
 // Mount routers
 app.use('/contact', contactRoutes);
 app.use('/jobs', jobRoutes);
 app.use('/admin', adminRoutes);
+app.use('/newsletter', newsletterRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
