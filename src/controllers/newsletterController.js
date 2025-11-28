@@ -1,5 +1,6 @@
 const Newsletter = require('../models/Newsletter');
 const sendEmail = require('../services/emailService');
+const generateEmailTemplate = require('../utils/emailTemplate');
 
 // @desc    Subscribe to newsletter
 // @route   POST /newsletter
@@ -18,17 +19,25 @@ exports.subscribe = async (req, res) => {
 
         // Send confirmation email
         try {
+            const message = `Hi there,
+            
+Thank you for subscribing to our newsletter! You will now receive updates about our latest news and offers.
+
+Best regards,
+Company Team`;
+
+            const html = generateEmailTemplate(
+                'Subscription Confirmed',
+                message,
+                'Visit Website',
+                process.env.CLIENT_URL || '#'
+            );
+
             await sendEmail({
                 email: email,
                 subject: 'Newsletter Subscription Confirmed',
-                message: `
-          Hi there,
-
-          Thank you for subscribing to our newsletter! You will now receive updates about our latest news and offers.
-
-          Best regards,
-          Company Team
-        `,
+                message: message, // Fallback
+                html: html,
             });
         } catch (err) {
             console.error('Newsletter email failed:', err);

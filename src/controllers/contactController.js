@@ -1,5 +1,6 @@
 const Contact = require('../models/Contact');
 const sendEmail = require('../services/emailService');
+const generateEmailTemplate = require('../utils/emailTemplate');
 
 // @desc    Submit contact form
 // @route   POST /contact
@@ -29,26 +30,40 @@ exports.submitContact = async (req, res) => {
 
         try {
             // Email to Admin
+            const adminHtml = generateEmailTemplate(
+                'New Contact Request',
+                messageToSend,
+                'View Contacts',
+                `${process.env.CLIENT_URL || '#'}/admin/contacts`
+            );
+
             await sendEmail({
                 email: process.env.SMTP_USER,
                 subject: 'New Contact Form Submission',
-                message: messageToSend,
+                message: messageToSend, // Fallback
+                html: adminHtml,
             });
 
             // Email to User
-            const userMessage = `
-        Hi ${name},
+            const userMessage = `Hi ${name},
 
-        Thank you for contacting us! We have received your message regarding "${service}" and will get back to you shortly.
+Thank you for contacting us! We have received your message regarding "${service}" and will get back to you shortly.
 
-        Best regards,
-        Company Team
-      `;
+Best regards,
+Company Team`;
+
+            const userHtml = generateEmailTemplate(
+                'We Received Your Message',
+                userMessage,
+                'Visit Website',
+                process.env.CLIENT_URL || '#'
+            );
 
             await sendEmail({
                 email: email,
                 subject: 'We received your message',
-                message: userMessage,
+                message: userMessage, // Fallback
+                html: userHtml,
             });
 
         } catch (err) {

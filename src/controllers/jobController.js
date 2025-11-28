@@ -1,6 +1,7 @@
 const Job = require('../models/Job');
 const JobApplication = require('../models/JobApplication');
 const sendEmail = require('../services/emailService');
+const generateEmailTemplate = require('../utils/emailTemplate');
 
 // @desc    Get all jobs
 // @route   GET /jobs
@@ -147,28 +148,42 @@ exports.applyForJob = async (req, res) => {
 
         try {
             // Email to Admin
+            const adminHtml = generateEmailTemplate(
+                'New Job Application',
+                messageToSend,
+                'View Applications',
+                `${process.env.CLIENT_URL || '#'}/admin/applications`
+            );
+
             await sendEmail({
                 email: process.env.SMTP_USER,
                 subject: `New Job Application from ${name}`,
-                message: messageToSend,
+                message: messageToSend, // Fallback text
+                html: adminHtml,
             });
 
             // Email to Applicant
-            const applicantMessage = `
-        Hi ${name},
+            const applicantMessage = `Hi ${name},
 
-        Thank you for applying! We have received your application.
-        
-        We will review your resume and portfolio and get back to you if your profile matches our requirements.
+Thank you for applying! We have received your application.
 
-        Best regards,
-        HR Team
-      `;
+We will review your resume and portfolio and get back to you if your profile matches our requirements.
+
+Best regards,
+HR Team`;
+
+            const applicantHtml = generateEmailTemplate(
+                'Application Received',
+                applicantMessage,
+                'View More Jobs',
+                `${process.env.CLIENT_URL || '#'}/careers`
+            );
 
             await sendEmail({
                 email: email,
                 subject: 'Application Received',
-                message: applicantMessage,
+                message: applicantMessage, // Fallback text
+                html: applicantHtml,
             });
 
         } catch (err) {
