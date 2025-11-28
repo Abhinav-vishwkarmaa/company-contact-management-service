@@ -14,6 +14,7 @@ exports.getJobs = async (req, res) => {
             data: jobs,
         });
     } catch (error) {
+        console.error('Error in getJobs:', error);
         res.status(400).json({ success: false, error: error.message });
     }
 };
@@ -34,6 +35,7 @@ exports.getJob = async (req, res) => {
             data: job,
         });
     } catch (error) {
+        console.error('Error in getJob:', error);
         res.status(400).json({ success: false, error: error.message });
     }
 };
@@ -50,6 +52,7 @@ exports.createJob = async (req, res) => {
             data: job,
         });
     } catch (error) {
+        console.error('Error in createJob:', error);
         res.status(400).json({ success: false, error: error.message });
     }
 };
@@ -72,6 +75,7 @@ exports.updateJob = async (req, res) => {
             data: job,
         });
     } catch (error) {
+        console.error('Error in updateJob:', error);
         res.status(400).json({ success: false, error: error.message });
     }
 };
@@ -94,6 +98,7 @@ exports.deleteJob = async (req, res) => {
             data: {},
         });
     } catch (error) {
+        console.error('Error in deleteJob:', error);
         res.status(400).json({ success: false, error: error.message });
     }
 };
@@ -177,6 +182,7 @@ exports.applyForJob = async (req, res) => {
             message: 'Application submitted successfully',
         });
     } catch (error) {
+        console.error('Error in applyForJob:', error);
         res.status(400).json({
             success: false,
             error: error.message,
@@ -204,6 +210,7 @@ exports.getJobApplications = async (req, res) => {
             data: applications,
         });
     } catch (error) {
+        console.error('Error in getJobApplications:', error);
         res.status(400).json({ success: false, error: error.message });
     }
 };
