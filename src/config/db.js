@@ -21,7 +21,7 @@ const connectDB = async () => {
         console.log('PostgreSQL Connected: Database connection has been established successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
-        process.exit(1);
+        // process.exit(1); // Avoid exiting in serverless environment
     }
 };
 
