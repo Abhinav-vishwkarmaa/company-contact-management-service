@@ -29,7 +29,7 @@ app.use(cors({
         "http://localhost:3000"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
 }));
 // app.options("*", cors()); // Removed due to Express 5 incompatibility with '*' wildcard
 
