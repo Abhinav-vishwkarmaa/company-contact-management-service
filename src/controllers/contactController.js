@@ -56,7 +56,7 @@ Company Team`;
                 'We Received Your Message',
                 userMessage,
                 'Visit Website',
-                process.env.CLIENT_URL || '#'
+                `${process.env.CLIENT_URL || 'https://abhinexgenit.vercel.app'}/contact-us`
             );
 
             await sendEmail({

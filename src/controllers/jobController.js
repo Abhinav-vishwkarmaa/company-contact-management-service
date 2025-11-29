@@ -156,7 +156,7 @@ exports.applyForJob = async (req, res) => {
             );
 
             await sendEmail({
-                email: process.env.SMTP_USER,
+                email: process.env.ADMIN_EMAIL,
                 subject: `New Job Application from ${name}`,
                 message: messageToSend, // Fallback text
                 html: adminHtml,
@@ -176,7 +176,7 @@ HR Team`;
                 'Application Received',
                 applicantMessage,
                 'View More Jobs',
-                `${process.env.CLIENT_URL || '#'}/careers`
+                `${process.env.CLIENT_URL || 'https://abhinexgenit.vercel.app'}/careers`
             );
 
             await sendEmail({
